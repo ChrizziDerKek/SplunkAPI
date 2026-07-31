@@ -1,0 +1,49 @@
+{{- if and .Values.rbac.create .Values.splunk.runtime.runningInKubernetes }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "splunk-api.fullname" . }}-exec
+  namespace: {{ .Values.splunk.kubernetes.namespace }}
+  labels:
+    {{- include "splunk-api.labels" . | nindent 4 }}
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    {{- if .Values.rbac.restrictToPodName }}
+    resourceNames:
+      - {{ required "splunk.kubernetes.pod is required" .Values.splunk.kubernetes.pod }}
+    {{- end }}
+    verbs:
+      - get
+
+  - apiGroups:
+      - ""
+    resources:
+      - pods/exec
+    {{- if .Values.rbac.restrictToPodName }}
+    resourceNames:
+      - {{ required "splunk.kubernetes.pod is required" .Values.splunk.kubernetes.pod }}
+    {{- end }}
+    verbs:
+      - get
+      - create
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "splunk-api.fullname" . }}-exec
+  namespace: {{ .Values.splunk.kubernetes.namespace }}
+  labels:
+    {{- include "splunk-api.labels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "splunk-api.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "splunk-api.fullname" . }}-exec
+{{- end }}

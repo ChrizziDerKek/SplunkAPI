@@ -1,0 +1,11 @@
+1. Check the rollout:
+   kubectl get pods -n {{ .Release.Namespace }}
+
+2. Test without an ingress:
+   kubectl port-forward -n {{ .Release.Namespace }} service/{{ include "splunk-api.fullname" . }} 8080:{{ .Values.service.port }}
+
+3. Verify exec permission:
+   kubectl auth can-i create pods/exec \
+     --resource-name={{ .Values.splunk.search.podName }} \
+     -n {{ .Values.splunk.search.namespace }} \
+     --as=system:serviceaccount:{{ .Release.Namespace }}:{{ include "splunk-api.serviceAccountName" . }}

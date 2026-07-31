@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "splunk-api.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "splunk-api.labels" . | nindent 4 }}
+data:
+  SPLUNK_HEC_URL: {{ required "splunk.hec.url is required" .Values.splunk.hec.url | quote }}
+  SPLUNK_HEC_IGNORE_CERT_ERRORS: {{ .Values.splunk.hec.ignoreCertificateErrors | quote }}
+
+  SPLUNK_SEARCH_PREVIEW: {{ .Values.splunk.search.preview | quote }}
+  SPLUNK_SEARCH_MAXOUT: {{ .Values.splunk.search.maxOut | quote }}
+  SPLUNK_SEARCH_MAXTIME: {{ .Values.splunk.search.maxTime | quote }}
+
+  SPLUNK_RUNNING_IN_KUBERNETES: {{ .Values.splunk.runtime.runningInKubernetes | quote }}
+  SPLUNK_EXECUTABLE: {{ .Values.splunk.runtime.executable | quote }}
+
+  SPLUNK_KUBERNETES_NAMESPACE: {{ .Values.splunk.kubernetes.namespace | quote }}
+  SPLUNK_KUBERNETES_POD: {{ .Values.splunk.kubernetes.pod | quote }}
+  SPLUNK_KUBERNETES_POD_CONTAINER: {{ .Values.splunk.kubernetes.container | quote }}
