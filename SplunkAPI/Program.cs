@@ -32,7 +32,7 @@ class Program
             document.Servers.Clear();
             document.Servers.Add(new() { Url = "/" });
         });
-        IHandlerBuilder builder = layout.AddSwaggerUi().AddRedoc("docs").Add(CorsPolicy.Permissive());
+        IHandlerBuilder builder = layout.AddSwaggerUi().Add(desc).AddRedoc("docs").Add(CorsPolicy.Permissive());
         await Host.Create().Handler(builder).Defaults().Console().RunAsync();
     }
 }
