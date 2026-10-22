@@ -18,3 +18,10 @@ data:
 
   SPLUNK_INGEST_MAX_BYTES: {{ .Values.splunk.ingest.maxBytes | int | quote }}
   SPLUNK_MCP_MAX_QUERY_LENGTH: {{ .Values.splunk.mcp.maxQueryLength | int | quote }}
+{{- if .Values.oauth.enabled }}
+SPLUNK_OAUTH_CLIENT_ID: {{ .Values.oauth.clientId | quote }}
+SPLUNK_OAUTH_REDIRECT_URI: {{ .Values.oauth.redirectUri | quote }}
+{{- if .Values.oauth.dbPath }}
+SPLUNK_OAUTH_DB_PATH: {{ .Values.oauth.dbPath | quote }}
+{{- end }}
+{{- end }}

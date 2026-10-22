@@ -10,7 +10,7 @@ public class TokenMiddleware(RequestDelegate next, Options options)
     public async Task InvokeAsync(HttpContext context)
     {
         string path = context.Request.Path;
-        if (path.StartsWith("/service/ingest") || path.StartsWith("/swagger"))
+        if (path.StartsWith("/service/ingest") || path.StartsWith("/swagger") || path.StartsWith("/mcp") || path.StartsWith("/.well-known") || path.StartsWith("/authorize") || path.StartsWith("/token"))
         {
             await Next(context);
             return;
