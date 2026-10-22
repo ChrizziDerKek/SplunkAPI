@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "SplunkAPI": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:56256;http://localhost:56257"
+    }
+  }
+}

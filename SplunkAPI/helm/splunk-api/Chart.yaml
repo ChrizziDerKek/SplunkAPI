@@ -1,0 +1,6 @@
+apiVersion: v2
+name: splunk-api
+description: REST and MCP interface for Splunk
+type: application
+version: 2.0.0
+appVersion: "2.0.0"

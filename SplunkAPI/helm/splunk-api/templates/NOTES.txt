@@ -1,0 +1,14 @@
+1. Check the rollout:
+   kubectl get pods -n {{ .Release.Namespace }}
+
+2. Test without ingress:
+   kubectl port-forward -n {{ .Release.Namespace }} \
+     service/{{ include "splunk-api.fullname" . }} 8080:{{ .Values.service.port }}
+
+3. Open Swagger:
+   http://localhost:8080/swagger
+
+4. Verify Splunk management connectivity:
+   kubectl exec -n {{ .Release.Namespace }} \
+     deployment/{{ include "splunk-api.fullname" . }} -- \
+     curl -k https://YOUR-SPLUNK-SERVICE:8089/services/server/info
