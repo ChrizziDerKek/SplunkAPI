@@ -10,8 +10,10 @@ public class TokenMiddleware(RequestDelegate next, Options options)
     public async Task InvokeAsync(HttpContext context)
     {
         string path = context.Request.Path;
-        if (path.StartsWith("/service/ingest") || path.StartsWith("/swagger"))
+        Console.WriteLine($"TokenMiddleware path = '{path}'");
+        if (path.Contains("/service/ingest") || path.Contains("/swagger") || path.Contains("/mcp"))
         {
+            Console.WriteLine($"TokenMiddleware bypass = '{path}'");
             await Next(context);
             return;
         }
